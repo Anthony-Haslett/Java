@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=HandTool()
+comment1.params=
+comment1.target=void\ printDetails()
+comment2.params=scanner2
+comment2.target=void\ extractData(java.util.Scanner)
+comment3.params=
+comment3.target=boolean\ getSharpenable()
+numComments=4

@@ -1,0 +1,45 @@
+import java.util.*;
+/**
+ * Write a description of class HandTool here.
+ * 
+ * @author (Anthony Haslett Group 1) 
+ * @version (a version number or a date)
+ */
+public class HandTool extends Tool 
+{
+    private boolean sharpenable;
+
+    public HandTool (boolean sharpenable, String toolName, String itemCode,int timesBorrowed,boolean onLoan, double cost,String weight)
+    {
+        super(toolName, itemCode,timesBorrowed,onLoan, cost,weight);
+        this.sharpenable = sharpenable;
+    }   
+
+    public HandTool()
+    {
+        super("Hammer", "XXXX999",11,false, 2.3, "40.8g");
+        this.sharpenable = true;
+    }
+
+    public boolean getSharpenable()
+    {
+        return sharpenable;
+    }
+
+    public void printDetails()
+    {
+        /**Get super details*/        
+        super.printDetails();
+
+        if(sharpenable == true)
+        {
+            System.out.println(getToolName() +" is sharpenable");
+        }
+        else
+        {
+            System.out.println(getToolName() +" is not sharpenable");
+        }        
+    }
+
+}
+

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Accessory()
+comment1.params=scanner2
+comment1.target=void\ extractData(java.util.Scanner)
+comment2.params=
+comment2.target=void\ printDetails()
+comment3.params=
+comment3.target=java.lang.String\ getPosition()
+numComments=4

@@ -1,0 +1,83 @@
+import java.util.*;
+/**
+ * Abstract class Tool - a super class to encompass HandTool and ElectricTool class objects
+ * 
+ * @author (Anthony Haslett Group 1)
+ * @version (Step 2 iii)
+ * CLASS is abstract because you can't make instances of a super class
+ */
+
+public abstract class Tool
+{
+    private String toolName;
+    private String itemCode;
+    private int timesBorrowed;
+    private boolean onLoan;
+    private double cost;
+    private String weight;    
+    public Tool(String toolName, String itemCode,int timesBorrowed,boolean onLoan, double cost,String weight )
+    {
+        this.toolName = toolName; //used this because it points to it's self i.e. the super class
+        this.itemCode = itemCode; 
+        this.timesBorrowed = timesBorrowed;
+        this.onLoan = onLoan;
+        this.cost = cost;
+        this.weight = weight;
+    }
+
+    public void printDetails()
+    {
+        System.out.println(""); //Must be blank
+        System.out.println("Tool name: "+getToolName());
+        System.out.println("Item code: "+getItemCode());
+        System.out.println("Times borrowed: "+getTimesBorrowed());
+        //Check if a tool is on loan
+        if(getOnLoan() == true)
+        {
+            System.out.println("The "+getToolName() +": is on loan");
+        }
+        else
+        {
+            System.out.println("The "+getToolName() +": is not loan");
+        }
+        System.out.println("Cost of "+getToolName()+": "+getCost()+" pence");
+        System.out.println("Weight of "+getToolName()+": "+getWeight()+" grammes");
+    }
+
+    /**Get Methods*/
+    public String getToolName()
+    {
+        return toolName;
+    }
+
+    public String getItemCode()
+    {
+        return itemCode;
+    }
+
+    public int getTimesBorrowed()
+    {
+        return timesBorrowed;
+    }
+
+    public boolean getOnLoan()
+    {
+        return onLoan;
+    }
+
+    public double getCost()
+    {
+        return cost;
+    }
+
+    public String getWeight()
+    {
+        return weight;
+    }
+
+    /**Set Methods*/
+    public void setOnLoan()
+    {
+        onLoan = onLoan;
+    }
+}

@@ -1,0 +1,4 @@
+[Workwear data]
+// data is manufacturing standard, colour, size, position, itemName, itemCode, cost
+EN 812,red,M,Section A shelf 5,oil-proof jacket,PI1320,3000
+EN 135,green,S,Section b shelf 7,gardening gloves,PI1321,5500

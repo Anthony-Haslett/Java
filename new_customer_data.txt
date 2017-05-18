@@ -3,8 +3,7 @@
 
 // New customer data
 // data is customerID, surname, firstName, otherInitials, title
-AB-258940, Smith, Sara, C, Ms
-AB-914556, Evans, David, , Dr
-AB-256364,Roberts,John,T,Mr
-AB-389860, Newton, David, E, Dr
-AB-253303, Gregson, Brian, R T, Mr
+AB-247787, Evans, David, , Dr
+AB-528278, Smith, Sara, C, Ms
+AB-868915, Newton, David, E, Dr
+AB-766699, Gregson, Brian, R T, Mr

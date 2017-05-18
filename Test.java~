@@ -5,22 +5,38 @@
  * @author (Anthony Haslett) 
  * @version (Part 3)
  */
+import javax.swing.JOptionPane;
 public class Test
 {
     public Test()
     {
-        /** Shop test*/
-                Shop shop = new Shop();
+        /** 1)Shop test*/
+        /**Make new shop*/
+        //Shop shop = new Shop();
+        /**Read shop data*/
         //         shop.readData();
+        /**Print all details in shop*/
         //         shop.printAllDetailsMap();
-        /** Customer test*/   
-        Customer customer = new Customer("","Roberts","John","T","Mr");
-        shop.addCustomerMap(customer);
-
+        /** 2) Customer test (single customer)*/ 
+        /**Make new shop*/
+//         Shop shop = new Shop();
+        /**Make new customer*/
+//         Customer customer = new Customer("","Roberts","John","T","Mr");
+        /**Add and print customer details*/
+//         shop.addCustomerMap(customer);
+//         shop.printAllCustomers();
+        /**Show pop up box*/
+//         JOptionPane.showMessageDialog(null, "Customer Added to Array");
+        /** 3) Customer test (All customers)*/ 
+        /**Make new shop*/
+        Shop shop = new Shop();
+        /**Make new customer*/
+        Customer customer = new Customer();
+        /**Read customer data*/
+        shop.readCustomerData();
+        /**Print all customers*/
         shop.printAllCustomers();
-      System.out.println("--- Customer Added to Array \n");
-         shop.readCustomerData();
-         shop.printAllCustomers();
-         shop.writeCustomerData();
+        /**write customer data*/
+        shop.writeCustomerData();
     }  
 }

@@ -2,7 +2,11 @@
 comment0.params=reservationNo\ itemID\ customerID\ startDate\ noOfDays
 comment0.target=ShopItemReservation(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ int)
 comment1.params=
-comment1.target=java.lang.String\ getReservationNo()
+comment1.target=void\ printDetails()
 comment2.params=
-comment2.target=java.util.Date\ getStartDate()
-numComments=3
+comment2.target=void\ printItemReservations()
+comment3.params=
+comment3.target=java.lang.String\ getReservationNo()
+comment4.params=
+comment4.target=java.util.Date\ getStartDate()
+numComments=5

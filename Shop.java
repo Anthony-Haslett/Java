@@ -22,6 +22,8 @@ public class Shop
 
     private Map <String, ShopItem> itemsMap;
     private Map <String, Customer> customerMap;
+    private Map <String, ShopItemReservation> itemReservationMap ;
+    
     private HashSet<String> numbers;
     // instance variables - replace the example below with your own
     /**
@@ -44,6 +46,13 @@ public class Shop
         //add customer to map
         itemsMap.put(shopItem.getItemCode(), shopItem);
     }
+    
+    public void storeItemReservation(ShopItemReservation itemRes)
+    {
+        //add customer to map
+        //itemsMap.put(itemRes.getStartDate(), itemRes);
+        itemReservationMap.put(itemRes.getReservationNo(), itemRes);
+    }
 
     public void addCustomerMap(Customer customer)
     {
@@ -62,7 +71,12 @@ public class Shop
             customer.setCustomerId(generateCustomerID(prefix,number));
 
         }
-
+        else{ 
+            if (customerMap.containsKey(customer.getCustomerId()))
+            {
+                System.out.println("Id exists");
+            }
+        }
         customerMap.put(customer.getCustomerId(),customer);
     }
 
@@ -86,6 +100,23 @@ public class Shop
         //System.out.println(customerId);
     }
 
+    public String generateReservationNo(String prefix, int num)
+    {
+          //make a new random instance
+        Random rand = new Random();
+        //new customer instance
+        ShopItemReservation res;
+        //give n1 & n2 the type cast of int then times the number by the power of 10, minus 1.
+        int n1 = (int)(Math.pow(10,num)-1.0);
+        int n2 = (int)Math.pow(10,(num-1));
+        //give value the "value" of n2 plus a random number. take n1 away from n2
+        int value = n2 + rand.nextInt(n1-n2);   
+        //give customerId the value of the parametres - prefix and value
+        String reservationNo  = prefix + value;
+        
+        return reservationNo;
+    }
+    
     public void getCustomerValue(String id)
     {
         //returns the 
@@ -347,12 +378,12 @@ public class Shop
             printWriter.close (); 
             JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
         }
-        
+
         catch(IOException ex)
         {
             System.out.println("Print writer error!");
         }
-        
+
     }
 }
 

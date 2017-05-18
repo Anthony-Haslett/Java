@@ -40,7 +40,7 @@ public class Test
         shop.writeCustomerData();
         
         /**4)*/
-        DateUtil date = new DateUtil();
-        //date.convertStringToDate();
+//         DateUtil date = new DateUtil();
+//         date.convertStringToDate(dateString);
     }  
 }

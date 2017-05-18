@@ -2,8 +2,9 @@ import java.util.*;
 import java.awt.*;
 import java.io.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 /**
- * A shop class to read all objects and print all
+ * A shop class to read all objects and print all, write 
  *  @author (Anthony Haslett group 1) 
  *  @version (Part 3)
  */
@@ -40,6 +41,7 @@ public class Shop
 
     public void addItemsMap(ShopItem shopItem )
     {
+        //add customer to map
         itemsMap.put(shopItem.getItemCode(), shopItem);
     }
 
@@ -66,13 +68,18 @@ public class Shop
 
     public String generateCustomerID(String prefix, int num)
     {
+        //make a new random instance
         Random rand = new Random();
+        //new customer instance
         Customer customer;
+        //give n1 & n2 the type cast of int then times the number by the power of 10, minus 1.
         int n1 = (int)(Math.pow(10,num)-1.0);
         int n2 = (int)Math.pow(10,(num-1));
+        //give value the "value" of n2 plus a random number. take n1 away from n2
         int value = n2 + rand.nextInt(n1-n2);   
-
+        //give customerId the value of the parametres - prefix and value
         String customerId = prefix + value;
+        //checkId(customer);
         return customerId;
 
         //setCustomerId(customerId);
@@ -81,6 +88,7 @@ public class Shop
 
     public void getCustomerValue(String id)
     {
+        //returns the 
         customerMap.get(id);   
     }
 
@@ -88,7 +96,7 @@ public class Shop
     {
         itemsMap.get(id);   
     }
-    
+
     public void checkId(Customer customer)
     {
         //get id        
@@ -117,6 +125,7 @@ public class Shop
         }
 
     }
+
     /**Print all customers in a map*/
     public void printAllCustomers()
     {
@@ -248,6 +257,7 @@ public class Shop
 
         }      
     }
+
     /**Read data from a customer data file*/
     public void readCustomerData()
     {
@@ -262,7 +272,7 @@ public class Shop
         }
         else
         {
-            System.out.println("You successfully selected "+ fileName); //Print out file name
+            System.out.println("You successfully selected "+ fileName+"\n"); //Print out file name
             System.out.println("File path "+ directoryPath); //Print out directory path           
 
         }
@@ -306,16 +316,23 @@ public class Shop
                 scanner2.close();
 
             }
-            scanner.close(); //Close thr scanner
+            scanner.close(); //Close the scanner
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+directoryPath);
         }
     }     
+
     /**Write data to a new_customer_data*/
     public void writeCustomerData()
     {
-        File file = new File ("F:/Java Project Part 3/new_customer_data.txt"); 
+        Frame myFrame = null; //Set myFrame to null
+        FileDialog fileBox = new FileDialog(myFrame, "Save File", FileDialog.SAVE);
+        fileBox.setVisible(true); //Show dialog box
+        String fileName = fileBox.getFile(); //Get the file name
+        String directoryPath = fileBox.getDirectory(); //get directory
+        File file = new File (fileName+directoryPath); 
         try
         {
-            PrintWriter printWriter = new PrintWriter ("new_customer_data.txt");
+            PrintWriter printWriter = new PrintWriter (file);
             printWriter.println("// this is a comment, any lines that start with //");
             printWriter.println("// (and blank lines) should be ignored");
             printWriter.println("");
@@ -328,13 +345,14 @@ public class Shop
             }
 
             printWriter.close (); 
-            System.out.println("\nFile write successful!");
-        }
 
+        }
+        
         catch(IOException ex)
         {
             System.out.println("Print writer error!");
         }
+        JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
     }
 }
 

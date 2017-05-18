@@ -11,6 +11,7 @@ public class Test
     public Test()
     {
         /** 1)Shop test*/
+<<<<<<< HEAD
        
         //Shop shop = new Shop();
         
@@ -42,5 +43,34 @@ public class Test
         /**4)*/
         DateUtil date = new DateUtil();
         date.convertStringToDate(Date);
+=======
+        /**Make new shop*/
+        //Shop shop = new Shop();
+        /**Read shop data*/
+        //         shop.readData();
+        /**Print all details in shop*/
+        //         shop.printAllDetailsMap();
+        /** 2) Customer test (single customer)*/ 
+        /**Make new shop*/
+//         Shop shop = new Shop();
+        /**Make new customer*/
+//         Customer customer = new Customer("","Roberts","John","T","Mr");
+        /**Add and print customer details*/
+//         shop.addCustomerMap(customer);
+//         shop.printAllCustomers();
+        /**Show pop up box*/
+//         JOptionPane.showMessageDialog(null, "Customer Added to Array");
+        /** 3) Customer test (All customers)*/ 
+        /**Make new shop*/
+        Shop shop = new Shop();
+        /**Make new customer*/
+        Customer customer = new Customer();
+        /**Read customer data*/
+        shop.readCustomerData();
+        /**Print all customers*/
+        shop.printAllCustomers();
+        /**write customer data*/
+        shop.writeCustomerData();
+>>>>>>> 399345638eb89cbb985a4e77874e19fca269b933
     }  
 }

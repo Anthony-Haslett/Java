@@ -34,7 +34,7 @@ public class ShopItemReservation
 
     public void printItemReservations(Shop shop) 
     {
-        shop.printAllDetailsMap(); 
+        shop.printItemDetails(); 
         shop.printAllCustomers();
         System.out.println(reservationNo +  itemID +  customerID +  startDate +  noOfDays);
     }

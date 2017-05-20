@@ -11,34 +11,43 @@ import javax.swing.JOptionPane;
 public class Shop
 {
     /** Original fields*/
-    //     private ArrayList<ShopItem> itemsList;
-    //     private ArrayList<Customer> customerList;
+
     private String fileName;    
+    private String filePath;  
     public Random randomGenerator;
-    /**New fields**/
 
-    //     private List<ShopItem> itemsList;
-    //     private List<Customer> customerList;
+    private String dumpCustomerDataFileName, dumpItemReservationDataFileName;
 
+    private String name;
     private Map <String, ShopItem> itemsMap;
     private Map <String, Customer> customerMap;
-private Map <String, ShopItemReservation> itemReservationMap ;
+    private Map <String, ShopItemReservation> itemReservationMap ;
     private HashSet<String> numbers;
     // instance variables - replace the example below with your own
     /**
      * Shop Constructor
      *
      */
-    public Shop()
+    public Shop(String name)
     {
         //         itemsList = new ArrayList<ShopItem>(); //Create the arrayList
         //         customerList = new ArrayList<Customer>();
+        name = "";
 
         itemsMap = new HashMap<String, ShopItem>();
         customerMap = new HashMap<String, Customer>();
         itemReservationMap = new HashMap<String, ShopItemReservation>();
+
         numbers = new HashSet<String>();
+
         fileName = "writenFile";
+        filePath = "items_all.txt";
+
+        readItemData("items_all.txt");
+
+        dumpCustomerDataFileName = name + "customer_dump.txt";
+        dumpItemReservationDataFileName = name + "shop_item_reservation_dump.txt";
+
     }  
 
     public void addItemsMap(ShopItem shopItem )
@@ -64,7 +73,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         return reservationNo;
     }
     //return String.format("%05d", reservationNo);
-     public ShopItemReservation  getReservation(ShopItemReservation res)
+    public ShopItemReservation  getReservation(ShopItemReservation res)
     {       
         return res;
     }
@@ -75,7 +84,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         if (itemsMap.containsKey(itemID))
         {            
             ShopItemReservation itemRes = new ShopItemReservation(generateReservationNo("AB-" , 4),
-            itemID,  customerID, startDate ,  noOfDays);
+                    itemID,  customerID, startDate ,  noOfDays);
             storeItemReservation(itemRes);
             return true;
         }
@@ -139,7 +148,6 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         //System.out.println(customerId);
     }
 
-    
     public void getCustomerValue(String id)
     {
         //returns the 
@@ -150,7 +158,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
     {
         itemsMap.get(id);   
     }
-    
+
     public void getItemReservationMap(String reservationNo)
     {
         itemReservationMap.get(reservationNo);   
@@ -167,7 +175,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
     }
 
     /**Print all shop details in a map*/
-    public void printAllDetailsMap()
+    public void printItemDetails()
     {
         // display all items
         if(itemsMap != null)
@@ -203,29 +211,31 @@ private Map <String, ShopItemReservation> itemReservationMap ;
 
     }
 
-    public void readData()
+    public void readItemData()
     {
         Frame myFrame = null; //Set myFrame to null
         FileDialog fileBox = new FileDialog(myFrame, "Open", FileDialog.LOAD);
         fileBox.setVisible(true); //Show dialog box
         String fileName = fileBox.getFile(); //Get the file name
         String directoryPath = fileBox.getDirectory(); //get directory
-        if (fileName == null) //Check if file name is null
+        if (fileName != null) //Check if file name is null
         {
-            System.out.println("You cancelled your selection");
+            System.out.println("You successfully selected "+ fileName); //Print out file name
+            System.out.println("File path "+ directoryPath + "\n"); //Print out directory path  
         }
         else
         {
-            System.out.println("You successfully selected "+ fileName); //Print out file name
-            System.out.println("File path "+ directoryPath + "\n"); //Print out directory path           
-
+            System.out.println("You cancelled your selection");   
         }
+    }
 
-        File file = new File(directoryPath, fileName);
+    public void readItemData(String filePath)
+    {       
+        File inFile = new File(filePath, fileName);
 
         Scanner scanner = null;
         try{
-            scanner = new Scanner(file);
+            scanner = new Scanner(inFile);
         }
 
         catch(FileNotFoundException ex)//Catches file exceptions
@@ -335,8 +345,11 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             System.out.println("File path "+ directoryPath); //Print out directory path           
 
         }
+    }
 
-        File file = new File(directoryPath, fileName);
+    public void readCustomerData(String filePath)
+    {      
+        File file = new File(filePath, fileName);
 
         Scanner scanner = null;
         try
@@ -376,7 +389,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
 
             }
             scanner.close(); //Close the scanner
-            JOptionPane.showMessageDialog(null, "Read successful!\n"+directoryPath);
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+filePath);
         }
     }     
 
@@ -389,9 +402,14 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         String fileName = fileBox.getFile(); //Get the file name
         String directoryPath = fileBox.getDirectory(); //get directory
         File file = new File (fileName+directoryPath); 
+    }
+
+    public void writeCustomerData(String filePath)
+    {
+
         try
         {
-            PrintWriter printWriter = new PrintWriter (file);
+            PrintWriter printWriter = new PrintWriter (filePath);
             printWriter.println("// this is a comment, any lines that start with //");
             printWriter.println("// (and blank lines) should be ignored");
             printWriter.println("");
@@ -404,7 +422,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             }
 
             printWriter.close (); 
-            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
+            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ filePath);
         }
 
         catch(IOException ex)
@@ -413,8 +431,8 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         }
 
     }
-    
-     /**Read data from a Item Reservation Data data file*/
+
+    /**Read data from a Item Reservation Data data file*/
     public void readItemReservationData()
     {
         Frame myFrame = null; //Set myFrame to null
@@ -432,8 +450,11 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             System.out.println("File path "+ directoryPath); //Print out directory path           
 
         }
+    }
 
-        File file = new File(directoryPath, fileName);
+    public void readItemReservationData(String filePath)
+    {           
+        File file = new File(filePath, fileName);
 
         Scanner scanner = null;
         try
@@ -466,7 +487,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
                 {
                     ShopItemReservation itemRes = null;
                     itemRes = new ShopItemReservation();
-                    
+
                     itemRes.extractData(scanner2);                    
                     storeItemReservation(itemRes);
                 }
@@ -474,7 +495,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
 
             }
             scanner.close(); //Close the scanner
-            JOptionPane.showMessageDialog(null, "Read successful!\n"+directoryPath);
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+filePath);
         }
     }     
 
@@ -487,9 +508,13 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         String fileName = fileBox.getFile(); //Get the file name
         String directoryPath = fileBox.getDirectory(); //get directory
         File file = new File (fileName+directoryPath); 
+    }
+
+    public void writeItemReservationData(String filePath)
+    {        
         try
         {
-            PrintWriter printWriter = new PrintWriter (file);
+            PrintWriter printWriter = new PrintWriter (filePath);
             printWriter.println("// this is a comment, any lines that start with //");
             printWriter.println("// (and blank lines) should be ignored");
             printWriter.println("");
@@ -502,7 +527,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             }
 
             printWriter.close (); 
-            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
+            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ filePath);
         }
 
         catch(IOException ex)
@@ -511,5 +536,44 @@ private Map <String, ShopItemReservation> itemReservationMap ;
         }
 
     }
+
+    public void closeDownSystem()
+    {
+        writeCustomerData();
+        writeItemReservationData();
+    }
+
+    public void reloadSystem() 
+    {
+        readCustomerData();
+        readItemReservationData();
+    }
+
+    public void arrayLengths(String typeOfData)
+    {
+        typeOfData = "";         
+        if (typeOfData == "itemsMap")
+        {
+            itemsMap.size();
+        }
+        else if (typeOfData == "customerMap")
+        {
+            customerMap.size();
+        }
+        else if (typeOfData == "itemReservationMap")
+        {
+            itemReservationMap.size();
+        }        
+        else
+        {
+            System.out.println("File not found!");
+        }
+    }
+
+    public void arrayLength()
+    {        
+        itemsMap.size();
+    }
 }
+
 

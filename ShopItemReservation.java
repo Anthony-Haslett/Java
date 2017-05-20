@@ -1,4 +1,6 @@
 import java.util.*;
+import java.io.*;
+import java.awt.*;
 /**
  * Write a description of class ShopItemReservation here.
  * 
@@ -19,19 +21,47 @@ public class ShopItemReservation
         startDate = "00-00-0000";
         this.noOfDays = noOfDays;
     }
+    
+    public ShopItemReservation()
+    {
+
+    }
 
     public void printDetails()
     {
         System.out.println( reservationNo +  itemID +  customerID +  startDate +  noOfDays);
     }
 
-    public void printItemReservations() 
+    public void printItemReservations(Shop shop) 
     {
-        // display all items
+        shop.printAllDetailsMap(); 
+        shop.printAllCustomers();
+        System.out.println(reservationNo +  itemID +  customerID +  startDate +  noOfDays);
+    }
+    
+    public void writeData(PrintWriter printWriter)
+    {              
+        printWriter.println(reservationNo +  itemID +  customerID +  startDate +  noOfDays);
+    }
+    
+     public void extractData(Scanner scanner2)
+    {
+        reservationNo = scanner2.next(); 
+        itemID = scanner2.next(); 
+        customerID = scanner2.next(); 
+        //startDate = scanner2.next(); 
+        noOfDays = scanner2.nextInt(); 
+        //super.extractData(scanner2);
+    }
+
+//     public void printItemReservations() 
+//     {
+//         // display all items
 //         ShopItemReservation itemReservationMap;
 //         if(itemReservationMap != null)
 //         {
-//             for(ShopItemReservation itemReservationMap : itemReservationMap.values()) {      
+//             Shop shop;
+//            for(ShopItemReservation itemRes: itemReservationMap.values())  {      
 //                 itemReservationMap.printDetails();  
 //                 System.out.println();   // empty line between items
 // 
@@ -41,12 +71,16 @@ public class ShopItemReservation
 //         {
 //             System.out.println("Nothing to display!");
 //         } 
-    }
+//     }
     
+
+
     public String  getReservationNo()
     {
         return reservationNo;
     }
+    
+    
 
     public Date getStartDate()
     {

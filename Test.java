@@ -6,6 +6,7 @@
  * @version (Part 3)
  */
 import javax.swing.JOptionPane;
+import java.util.*;
 public class Test
 {
     public Test()
@@ -41,6 +42,9 @@ public class Test
         
         /**4)*/
 //         DateUtil date = new DateUtil();
-//         date.convertStringToDate(dateString);
+//       Date date1;
+//       Date date2;
+// date1.date.convertStringToDate("19/03/2017");
+//         date.convertStringToDate("19/03/2017");
     }  
 }

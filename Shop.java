@@ -36,6 +36,7 @@ private Map <String, ShopItemReservation> itemReservationMap ;
 
         itemsMap = new HashMap<String, ShopItem>();
         customerMap = new HashMap<String, Customer>();
+        itemReservationMap = new HashMap<String, ShopItemReservation>();
         numbers = new HashSet<String>();
         fileName = "writenFile";
     }  
@@ -62,13 +63,17 @@ private Map <String, ShopItemReservation> itemReservationMap ;
 
         return reservationNo;
     }
+    //return String.format("%05d", reservationNo);
+     public ShopItemReservation  getReservation(ShopItemReservation res)
+    {       
+        return res;
+    }
 
     public boolean makeItemReservation(String customerID, String itemID, 
     String startDate, int noOfDays) 
     {
         if (itemsMap.containsKey(itemID))
-        {
-            
+        {            
             ShopItemReservation itemRes = new ShopItemReservation(generateReservationNo("AB-" , 4),
             itemID,  customerID, startDate ,  noOfDays);
             storeItemReservation(itemRes);
@@ -79,7 +84,6 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             System.out.println("false") ;
             return false;
         }
-
     }
 
     public void storeItemReservation(ShopItemReservation itemRes)
@@ -145,6 +149,11 @@ private Map <String, ShopItemReservation> itemReservationMap ;
     public void getShopItemValue(String id)
     {
         itemsMap.get(id);   
+    }
+    
+    public void getItemReservationMap(String reservationNo)
+    {
+        itemReservationMap.get(reservationNo);   
     }
 
     public void checkId(Customer customer)
@@ -392,6 +401,104 @@ private Map <String, ShopItemReservation> itemReservationMap ;
             for(Customer customer: customerMap.values()) 
             {
                 customer.writeData(printWriter);
+            }
+
+            printWriter.close (); 
+            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
+        }
+
+        catch(IOException ex)
+        {
+            System.out.println("Print writer error!");
+        }
+
+    }
+    
+     /**Read data from a Item Reservation Data data file*/
+    public void readItemReservationData()
+    {
+        Frame myFrame = null; //Set myFrame to null
+        FileDialog fileBox = new FileDialog(myFrame, "Open", FileDialog.LOAD);
+        fileBox.setVisible(true); //Show dialog box
+        String fileName = fileBox.getFile(); //Get the file name
+        String directoryPath = fileBox.getDirectory(); //get directory
+        if (fileName == null) //Check if file name is null
+        {
+            System.out.println("You cancelled your selection");
+        }
+        else
+        {
+            System.out.println("You successfully selected "+ fileName+"\n"); //Print out file name
+            System.out.println("File path "+ directoryPath); //Print out directory path           
+
+        }
+
+        File file = new File(directoryPath, fileName);
+
+        Scanner scanner = null;
+        try
+        {
+            scanner = new Scanner(file);
+        }
+
+        catch(FileNotFoundException ex)//Catches file exceptions
+        {
+            System.err.println("File not found"); 
+        }
+
+        if(scanner==null) //check if scanner is null
+        {
+            //
+        }
+        else
+        {
+            while(scanner.hasNext()) //While there is more data to read
+            {
+                String lineOfText = scanner.nextLine();
+                lineOfText = lineOfText.trim();
+                Scanner scanner2 = new Scanner(lineOfText); //Makes a new scanner
+                scanner2.useDelimiter(",");//Takes away commas in the text file
+                if(lineOfText.isEmpty() || lineOfText.startsWith("//"))//Gets rid of spaces and "//"
+                {
+                    //
+                }
+                else
+                {
+                    ShopItemReservation itemRes = null;
+                    itemRes = new ShopItemReservation();
+                    
+                    itemRes.extractData(scanner2);                    
+                    storeItemReservation(itemRes);
+                }
+                scanner2.close();
+
+            }
+            scanner.close(); //Close the scanner
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+directoryPath);
+        }
+    }     
+
+    /**Write data to an item reservation file*/
+    public void writeItemReservationData()
+    {
+        Frame myFrame = null; //Set myFrame to null
+        FileDialog fileBox = new FileDialog(myFrame, "Save File", FileDialog.SAVE);
+        fileBox.setVisible(true); //Show dialog box
+        String fileName = fileBox.getFile(); //Get the file name
+        String directoryPath = fileBox.getDirectory(); //get directory
+        File file = new File (fileName+directoryPath); 
+        try
+        {
+            PrintWriter printWriter = new PrintWriter (file);
+            printWriter.println("// this is a comment, any lines that start with //");
+            printWriter.println("// (and blank lines) should be ignored");
+            printWriter.println("");
+            printWriter.println("// New customer data");
+            printWriter.println("// data is customerID, surname, firstName, otherInitials, title");
+
+            for(ShopItemReservation itemRes: itemReservationMap.values()) 
+            {
+                itemRes.writeData(printWriter);
             }
 
             printWriter.close (); 

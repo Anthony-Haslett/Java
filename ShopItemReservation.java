@@ -78,8 +78,7 @@ public class ShopItemReservation
     public String  getReservationNo()
     {
         return reservationNo;
-    }
-    
+    }    
     
 
     public Date getStartDate()

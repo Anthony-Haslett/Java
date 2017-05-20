@@ -32,7 +32,7 @@ public class Shop
     {
         //         itemsList = new ArrayList<ShopItem>(); //Create the arrayList
         //         customerList = new ArrayList<Customer>();
-        name = "";
+        name = ""; 
 
         itemsMap = new HashMap<String, ShopItem>();
         customerMap = new HashMap<String, Customer>();
@@ -68,6 +68,7 @@ public class Shop
         //give value the "value" of n2 plus a random number. take n1 away from n2
         int value = n2 + rand.nextInt(n1-n2);   
         //give customerId the value of the parametres - prefix and value
+        prefix = "";
         String reservationNo  = prefix + value;
 
         return reservationNo;
@@ -78,20 +79,24 @@ public class Shop
         return res;
     }
 
-    public boolean makeItemReservation(String customerID, String itemID, 
+    public void makeItemReservation(String customerID, String itemID, 
     String startDate, int noOfDays) 
     {
-        if (itemsMap.containsKey(itemID))
+        ShopItemReservation item = new ShopItemReservation();
+        item.getReservationNo();
+        
+        if (itemReservationMap.containsKey(itemID))
         {            
-            ShopItemReservation itemRes = new ShopItemReservation(generateReservationNo("AB-" , 4),
+            ShopItemReservation itemRes = new ShopItemReservation(generateReservationNo("" , 6),
                     itemID,  customerID, startDate ,  noOfDays);
             storeItemReservation(itemRes);
-            return true;
+            
+            //return true;
         }
         else
         {
             System.out.println("false") ;
-            return false;
+            //return false;
         }
     }
 
@@ -548,6 +553,12 @@ public class Shop
         readCustomerData();
         readItemReservationData();
     }
+    
+    public void reloadShop() 
+    {
+        readCustomerData();
+        readItemReservationData();
+    }
 
     public void arrayLengths(String typeOfData)
     {
@@ -570,9 +581,33 @@ public class Shop
         }
     }
 
-    public void arrayLength()
+    public void getNumberOfItems()
     {        
-        itemsMap.size();
+//         int hasShopItems = itemsMap.size();
+//         if (itemsMap.size() > 0)
+//         {
+//             itemsMap.size();
+//         }
+//         else
+//         {
+//          return false;
+//         }
+//         return System.out.println(hasShopItems);
+// return true;
+itemsMap.size();
+    }
+    
+    public boolean getNumberOfCustomers()
+    {       
+        if (customerMap.size() > 0)
+        {
+            customerMap.size();
+        }
+        else
+        {
+         return false;
+        }
+        return false;
     }
 }
 

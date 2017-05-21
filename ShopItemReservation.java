@@ -80,6 +80,15 @@ public class ShopItemReservation
         return reservationNo;
     }    
     
+    
+    
+    public  Date getNoOfDays()
+    {
+        DateUtil date = new DateUtil();
+        Date today = DateUtil.convertStringToDate("25-03-2017");
+        Date tomorrow = DateUtil.convertStringToDate("28-03-2017");
+        return System.out.println(DateUtil.daysBetween(today, tomorrow));
+    }
 
     public Date getStartDate()
     {

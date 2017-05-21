@@ -11,32 +11,43 @@ import javax.swing.JOptionPane;
 public class Shop
 {
     /** Original fields*/
-    //     private ArrayList<ShopItem> itemsList;
-    //     private ArrayList<Customer> customerList;
+
     private String fileName;    
+    private String filePath;  
     public Random randomGenerator;
-    /**New fields**/
+    private Diary diary;
+    private String dumpCustomerDataFileName, dumpItemReservationDataFileName;
 
-    //     private List<ShopItem> itemsList;
-    //     private List<Customer> customerList;
-
+    private String name;
     private Map <String, ShopItem> itemsMap;
     private Map <String, Customer> customerMap;
+    private Map <String, ShopItemReservation> itemReservationMap ;
     private HashSet<String> numbers;
     // instance variables - replace the example below with your own
     /**
      * Shop Constructor
      *
      */
-    public Shop()
+    public Shop(String name)
     {
         //         itemsList = new ArrayList<ShopItem>(); //Create the arrayList
         //         customerList = new ArrayList<Customer>();
+        name = ""; 
 
         itemsMap = new HashMap<String, ShopItem>();
         customerMap = new HashMap<String, Customer>();
+        itemReservationMap = new HashMap<String, ShopItemReservation>();
+
         numbers = new HashSet<String>();
-        fileName = "writenFile";
+
+        fileName = "items_all.txt";
+        filePath = "items_all.txt";
+
+        readItemData("items_all.txt");
+
+        dumpCustomerDataFileName = name + "customer_dump.txt";
+        dumpItemReservationDataFileName = name + "shop_item_reservation_dump.txt";
+
     }  
 
     public void addItemsMap(ShopItem shopItem )
@@ -44,6 +55,59 @@ public class Shop
         //add customer to map
         itemsMap.put(shopItem.getItemCode(), shopItem);
     }
+
+    public String generateReservationNo(String prefix, int num)
+    {
+        //make a new random instance
+        Random rand = new Random();
+        //new customer instance
+        ShopItemReservation res;
+        //give n1 & n2 the type cast of int then times the number by the power of 10, minus 1.
+        int n1 = (int)(Math.pow(10,num)-1.0);
+        int n2 = (int)Math.pow(10,(num-1));
+        //give value the "value" of n2 plus a random number. take n1 away from n2
+        int value = n2 + rand.nextInt(n1-n2);   
+        //give customerId the value of the parametres - prefix and value
+        prefix = "";
+        String reservationNo  = prefix + value;
+
+        return reservationNo;
+    }
+    //return String.format("%05d", reservationNo);
+    public ShopItemReservation  getReservation(ShopItemReservation res)
+    {       
+        return res;
+    }
+
+    public void makeItemReservation(String customerID, String itemID, 
+    String startDate, int noOfDays) 
+    {
+        ShopItemReservation item = new ShopItemReservation();
+        item.getReservationNo();
+        
+        if (itemReservationMap.containsKey(itemID))
+        {            
+            ShopItemReservation itemRes = new ShopItemReservation(generateReservationNo("" , 6),
+                    itemID,  customerID, startDate ,  noOfDays);
+            storeItemReservation(itemRes);
+            
+            //return true;
+        }
+        else
+        {
+            System.out.println("false") ;
+            //return false;
+        }
+    }
+
+    public void storeItemReservation(ShopItemReservation itemRes)
+    {
+        //add customer to map
+        //itemsMap.put(itemRes.getStartDate(), itemRes);
+        Diary diary = new Diary();
+        itemReservationMap.put(itemRes.getReservationNo(), itemRes);
+        diary.addItemReservation(itemRes) 
+;    }   
 
     public void addCustomerMap(Customer customer)
     {
@@ -62,7 +126,12 @@ public class Shop
             customer.setCustomerId(generateCustomerID(prefix,number));
 
         }
-
+        else{ 
+            if (customerMap.containsKey(customer.getCustomerId()))
+            {
+                System.out.println("Id exists");
+            }
+        }
         customerMap.put(customer.getCustomerId(),customer);
     }
 
@@ -97,6 +166,11 @@ public class Shop
         itemsMap.get(id);   
     }
 
+    public void getItemReservationMap(String reservationNo)
+    {
+        itemReservationMap.get(reservationNo);   
+    }
+
     public void checkId(Customer customer)
     {
         //get id        
@@ -108,7 +182,7 @@ public class Shop
     }
 
     /**Print all shop details in a map*/
-    public void printAllDetailsMap()
+    public void printItemDetails()
     {
         // display all items
         if(itemsMap != null)
@@ -144,29 +218,31 @@ public class Shop
 
     }
 
-    public void readData()
+    public void readItemData()
     {
         Frame myFrame = null; //Set myFrame to null
         FileDialog fileBox = new FileDialog(myFrame, "Open", FileDialog.LOAD);
         fileBox.setVisible(true); //Show dialog box
         String fileName = fileBox.getFile(); //Get the file name
         String directoryPath = fileBox.getDirectory(); //get directory
-        if (fileName == null) //Check if file name is null
+        if (fileName != null) //Check if file name is null
         {
-            System.out.println("You cancelled your selection");
+            System.out.println("You successfully selected "+ fileName); //Print out file name
+            System.out.println("File path "+ directoryPath + "\n"); //Print out directory path  
         }
         else
         {
-            System.out.println("You successfully selected "+ fileName); //Print out file name
-            System.out.println("File path "+ directoryPath + "\n"); //Print out directory path           
-
+            System.out.println("You cancelled your selection");   
         }
+    }
 
-        File file = new File(directoryPath, fileName);
+    public void readItemData(String filePath)
+    {       
+        File inFile = new File(filePath, fileName);
 
         Scanner scanner = null;
         try{
-            scanner = new Scanner(file);
+            scanner = new Scanner(inFile);
         }
 
         catch(FileNotFoundException ex)//Catches file exceptions
@@ -276,8 +352,11 @@ public class Shop
             System.out.println("File path "+ directoryPath); //Print out directory path           
 
         }
+    }
 
-        File file = new File(directoryPath, fileName);
+    public void readCustomerData(String filePath)
+    {      
+        File file = new File(filePath, fileName);
 
         Scanner scanner = null;
         try
@@ -317,7 +396,7 @@ public class Shop
 
             }
             scanner.close(); //Close the scanner
-            JOptionPane.showMessageDialog(null, "Read successful!\n"+directoryPath);
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+filePath);
         }
     }     
 
@@ -330,9 +409,14 @@ public class Shop
         String fileName = fileBox.getFile(); //Get the file name
         String directoryPath = fileBox.getDirectory(); //get directory
         File file = new File (fileName+directoryPath); 
+    }
+
+    public void writeCustomerData(String filePath)
+    {
+
         try
         {
-            PrintWriter printWriter = new PrintWriter (file);
+            PrintWriter printWriter = new PrintWriter (filePath);
             printWriter.println("// this is a comment, any lines that start with //");
             printWriter.println("// (and blank lines) should be ignored");
             printWriter.println("");
@@ -345,14 +429,188 @@ public class Shop
             }
 
             printWriter.close (); 
-
+            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ filePath);
         }
-        
+
         catch(IOException ex)
         {
             System.out.println("Print writer error!");
         }
-        JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ directoryPath);
+
+    }
+
+    /**Read data from a Item Reservation Data data file*/
+    public void readItemReservationData()
+    {
+        Frame myFrame = null; //Set myFrame to null
+        FileDialog fileBox = new FileDialog(myFrame, "Open", FileDialog.LOAD);
+        fileBox.setVisible(true); //Show dialog box
+        String fileName = fileBox.getFile(); //Get the file name
+        String directoryPath = fileBox.getDirectory(); //get directory
+        if (fileName == null) //Check if file name is null
+        {
+            System.out.println("You cancelled your selection");
+        }
+        else
+        {
+            System.out.println("You successfully selected "+ fileName+"\n"); //Print out file name
+            System.out.println("File path "+ directoryPath); //Print out directory path           
+
+        }
+    }
+
+    public void readItemReservationData(String filePath)
+    {           
+        File file = new File(filePath, fileName);
+
+        Scanner scanner = null;
+        try
+        {
+            scanner = new Scanner(file);
+        }
+
+        catch(FileNotFoundException ex)//Catches file exceptions
+        {
+            System.err.println("File not found"); 
+        }
+
+        if(scanner==null) //check if scanner is null
+        {
+            //
+        }
+        else
+        {
+            while(scanner.hasNext()) //While there is more data to read
+            {
+                String lineOfText = scanner.nextLine();
+                lineOfText = lineOfText.trim();
+                Scanner scanner2 = new Scanner(lineOfText); //Makes a new scanner
+                scanner2.useDelimiter(",");//Takes away commas in the text file
+                if(lineOfText.isEmpty() || lineOfText.startsWith("//"))//Gets rid of spaces and "//"
+                {
+                    //
+                }
+                else
+                {
+                    ShopItemReservation itemRes = null;
+                    itemRes = new ShopItemReservation();
+
+                    itemRes.extractData(scanner2);                    
+                    storeItemReservation(itemRes);
+                }
+                scanner2.close();
+
+            }
+            scanner.close(); //Close the scanner
+            JOptionPane.showMessageDialog(null, "Read successful!\n"+filePath);
+        }
+    }     
+
+    /**Write data to an item reservation file*/
+    public void writeItemReservationData()
+    {
+        Frame myFrame = null; //Set myFrame to null
+        FileDialog fileBox = new FileDialog(myFrame, "Save File", FileDialog.SAVE);
+        fileBox.setVisible(true); //Show dialog box
+        String fileName = fileBox.getFile(); //Get the file name
+        String directoryPath = fileBox.getDirectory(); //get directory
+        File file = new File (fileName+directoryPath); 
+    }
+
+    public void writeItemReservationData(String filePath)
+    {        
+        try
+        {
+            PrintWriter printWriter = new PrintWriter (filePath);
+            printWriter.println("// this is a comment, any lines that start with //");
+            printWriter.println("// (and blank lines) should be ignored");
+            printWriter.println("");
+            printWriter.println("// New customer data");
+            printWriter.println("// data is customerID, surname, firstName, otherInitials, title");
+
+            for(ShopItemReservation itemRes: itemReservationMap.values()) 
+            {
+                itemRes.writeData(printWriter);
+            }
+
+            printWriter.close (); 
+            JOptionPane.showMessageDialog(null, "You successfully wrote to "+ fileName+"\n"+"File path "+ filePath);
+        }
+
+        catch(IOException ex)
+        {
+            System.out.println("Print writer error!");
+        }
+
+    }
+
+    public void closeDownSystem()
+    {
+        writeCustomerData();
+        writeItemReservationData();
+    }
+
+    public void reloadSystem() 
+    {
+        readCustomerData();
+        readItemReservationData();
+    }
+    
+    public void reloadShop() 
+    {
+        readCustomerData();
+        readItemReservationData();
+    }
+
+    public void arrayLengths(String typeOfData)
+    {
+        typeOfData = "";         
+        if (typeOfData == "itemsMap")
+        {
+            itemsMap.size();
+        }
+        else if (typeOfData == "customerMap")
+        {
+            customerMap.size();
+        }
+        else if (typeOfData == "itemReservationMap")
+        {
+            itemReservationMap.size();
+        }        
+        else
+        {
+            System.out.println("Array not found!");
+        }
+    }
+
+    public void getNumberOfItems()
+    {        
+//         int hasShopItems = itemsMap.size();
+//         if (itemsMap.size() > 0)
+//         {
+//             itemsMap.size();
+//         }
+//         else
+//         {
+//          return false;
+//         }
+//         return System.out.println(hasShopItems);
+// return true;
+itemsMap.size();
+    }
+    
+    public boolean getNumberOfCustomers()
+    {       
+        if (customerMap.size() > 0)
+        {
+            customerMap.size();
+        }
+        else
+        {
+         return false;
+        }
+        return false;
     }
 }
+
 

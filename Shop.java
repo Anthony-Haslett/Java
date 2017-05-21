@@ -15,7 +15,7 @@ public class Shop
     private String fileName;    
     private String filePath;  
     public Random randomGenerator;
-
+    private Diary diary;
     private String dumpCustomerDataFileName, dumpItemReservationDataFileName;
 
     private String name;
@@ -40,7 +40,7 @@ public class Shop
 
         numbers = new HashSet<String>();
 
-        fileName = "writenFile";
+        fileName = "items_all.txt";
         filePath = "items_all.txt";
 
         readItemData("items_all.txt");
@@ -104,8 +104,11 @@ public class Shop
     {
         //add customer to map
         //itemsMap.put(itemRes.getStartDate(), itemRes);
+        Diary diary = new Diary();
         itemReservationMap.put(itemRes.getReservationNo(), itemRes);
-    }   
+        diary.addItemReservation(itemRes) 
+        
+;    }   
 
     public void addCustomerMap(Customer customer)
     {
@@ -577,7 +580,7 @@ public class Shop
         }        
         else
         {
-            System.out.println("File not found!");
+            System.out.println("Array not found!");
         }
     }
 
